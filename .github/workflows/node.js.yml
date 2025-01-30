@@ -30,7 +30,12 @@ jobs:
     - name: Set up environment variables
       run: |
         echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> .env
-
+        echo "PORT=${{ secrets.PORT }}" >> .env
+        echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+        echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+        echo "S3_ACCESS_KEY=${{ secrets.S3_ACCESS_KEY }}" >> .env
+        echo "S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}" >> .env
+        echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
         
     - run: npm ci
     - run: npm run build --if-present
