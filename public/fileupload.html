@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload & User Data</title>
+    <link rel="stylesheet" href="style/upload.css" />
+  </head>
+  <body>
+    <div id="mainContent" >
+    
+    <div class="container ">
+      <!-- File Upload Section -->
+      <div class="upload-container">
+        <h2>Upload Your File</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+          <label for="fileInput" class="file-label">Choose a file</label>
+          <input type="file" id="fileInput" required />
+          <p id="fileName">No file chosen</p>
+          <button type="submit">Upload</button>
+        </form>
+        <p id="uploadMessage"></p>
+      </div>
+
+      <!-- File Info Section -->
+      <div class="file-info">
+        <h3>Uploaded File</h3>
+        <p id="uploadedFileName">No file uploaded yet</p>
+        <button id="downloadButton" style="display: none">Download</button>
+        <p id="downloadCount">Total downloads: 0</p>
+      </div>
+
+      <!-- User Data Table -->
+      <div class="table-container">
+        <h3>User Data</h3>
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Cardholder Name</th>
+              <th>Card Number</th>
+              <th>Expiration Date</th>
+              <th>CVC</th>
+              <th>Antivirus Selected</th>
+              <th>Dedicated IP Selected</th>
+              <th>Country</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be injected here -->
+          </tbody>
+        </table>
+        <div class="pagination">
+          <button id="prevPage">Prev</button>
+          <button id="nextPage">Next</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+    <script>
+      const fileInput = document.getElementById("fileInput");
+      const fileNameDisplay = document.getElementById("fileName");
+      const uploadMessage = document.getElementById("uploadMessage");
+
+      // File input change event
+      fileInput.addEventListener("change", () => {
+        fileNameDisplay.textContent = fileInput.files[0]
+          ? fileInput.files[0].name
+          : "No file chosen";
+      });
+
+      // Form submission for file upload
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (!fileInput.files.length) {
+            alert("Please select a file to upload!");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append("file", fileInput.files[0]);
+          console.log(fileInput.files);
+
+          const response = await fetch("/api/files/generate-presigned-url", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              filename: fileInput.files[0].name,
+              fileType: fileInput.files[0].type,
+            }),
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            const presignedUrl = data.url;
+            // Use the pre-signed URL to upload the file directly to S3
+            const uploadResponse = await fetch(presignedUrl, {
+              method: "PUT",
+              headers: {
+                "Content-Type": fileInput.files[0].type,
+              },
+              body: fileInput.files[0],
+            });
+
+            if (uploadResponse.ok) {
+              const uploadFle = fetch("/api/files/upload", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + localStorage.getItem("token"),
+                },
+                body: JSON.stringify({
+                  fileName: fileInput.files[0].name,
+                  fileUrl: presignedUrl,
+                }),
+              });
+              uploadMessage.textContent = "File uploaded successfully!";
+              uploadMessage.style.color = "green";
+            } else {
+              uploadMessage.textContent = "File upload failed";
+              uploadMessage.style.color = "red";
+            }
+          } else {
+            uploadMessage.textContent =
+              "Failed to generate presigned URL: " + data.message;
+            uploadMessage.style.color = "red";
+          }
+        });
+
+      // Fetch the uploaded file information
+      async function fetchUploadedFile() {
+        const response = await fetch("/api/files/latest");
+        const data = await response.json();
+        if (response.ok) {
+          const file = data.file;
+          document.getElementById("uploadedFileName").textContent =
+            file.filename;
+          document.getElementById("downloadButton").style.display = "inline";
+          document.getElementById("downloadButton").onclick = () =>
+            downloadFile();
+          document.getElementById("downloadCount").textContent =
+            "Total downloads: " + file.downloads;
+        }
+      }
+
+      // Download the file (without counting it in the download count)
+
+      async function downloadFile() {
+        try {
+          // Fetch the latest file data
+          const response = await fetch(`/api/files/download`);
+          const data = await response.json();
+          console.log(data);
+
+          if (response.ok) {
+            const fileUrl = data.file.filepath; // The S3 URL of the file
+            const filename = data.file.filename; // Filename from the server
+
+            // Fetch the file as a Blob
+            const fileResponse = await fetch(fileUrl);
+
+            if (!fileResponse.ok) {
+              throw new Error("Failed to fetch the file");
+            }
+
+            const fileBlob = await fileResponse.blob();
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(fileBlob);
+            link.download = filename || "download";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            alert("Download failed: " + data.message);
+          }
+        } catch (error) {
+          console.error("Error downloading file:", error);
+          alert("An error occurred while downloading the file.");
+        }
+      }
+
+      let currentPage = 1;
+      const rowsPerPage = 10; // You can change this number based on how many rows you want to display per page
+
+      // Function to fetch user data and populate the table
+      async function fetchUserData(page = 1) {
+        const response = await fetch(
+          `/api/auth/subscriptions?page=${page}&limit=${rowsPerPage}`,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          const tableBody = document
+            .getElementById("userTable")
+            .getElementsByTagName("tbody")[0];
+          tableBody.innerHTML = "";
+          data.data.forEach((user) => {
+            const row = tableBody.insertRow();
+            row.insertCell(0).textContent = user.email;
+            row.insertCell(1).textContent = user.cardholderName;
+            row.insertCell(2).textContent = user.cardNumber;
+            row.insertCell(3).textContent = user.expirationDate;
+            row.insertCell(4).textContent = user.cvc;
+            row.insertCell(5).textContent = user.antivirusSelected
+              ? "Yes"
+              : "No";
+            row.insertCell(6).textContent = user.dedicatedIPSelected
+              ? "Active"
+              : "Inactive";
+            row.insertCell(7).textContent = user.country;
+          });
+
+          // If no data is returned, disable "Next" button
+          document.getElementById("nextPage").disabled = !data.hasMore;
+          document.getElementById("prevPage").disabled = page === 1;
+        } else {
+          alert("Failed to load user data");
+        }
+      }
+
+      document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          fetchUserData(currentPage);
+        }
+      });
+
+      document.getElementById("nextPage").addEventListener("click", () => {
+        currentPage++;
+        fetchUserData(currentPage);
+      });
+
+      function showPage() {
+        document.getElementById("mainContent").style.display = "block"; // Show the page content
+      }
+
+      function hidePage() {
+        document.getElementById("mainContent").style.display = "none"; // Hide the page content
+      }
+
+      const getIsAdmin = async () => {
+  const response = await fetch("/api/auth/is-admin", {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+
+  const data = await response.json();
+  console.log(data);
+
+  const mainContent = document.getElementById("mainContent");
+
+  if (data.success && mainContent) {
+    mainContent.style.display = "block"; // Show if admin
+  } else if (mainContent) {
+    window.location.href = "/login"; 
+    mainContent.remove(); 
+  }
+};
+
+      // Initial fetch for user data on page load
+      window.onload = async function () {
+        await getIsAdmin();
+        fetchUploadedFile();
+        fetchUserData();
+      };
+
+     
+   </script>
+  </body>
+</html>
