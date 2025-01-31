@@ -1,0 +1,403 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Baloo Tamma 2", Helvetica, Arial, sans-serif;
+
+  transition: background 0.5s ease;
+}
+
+
+.main-div {
+    padding: 0 20px;
+    background: #20212c;
+    color: white;
+    width: 100%;
+  }
+  
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: clamp(25px, 5vw, 60px);
+  }
+  
+
+  
+  @media (min-width: 1024px) {
+    .main-div {
+      padding: 0 200px;
+    }
+  
+    main {
+      flex-direction: row;
+    }
+  
+    .w-80 {
+      width: 80%;
+    }
+  
+    .w-lg-auto {
+      width: auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .w-80 {
+      width: 100%;
+    }
+  
+ 
+  }
+  
+  video {
+    width: 60%;
+    max-width: 60%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+
+
+.second-div {
+  padding: 0 200px;
+}
+
+@media screen and (max-width: 990px) {
+  video{
+    display: none;
+  }
+    
+}
+
+.button {
+  background: #ff4081;
+  color: white;
+  padding: 15px 40px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.2s ease, background-color 0.3s;
+}
+
+.div-3 {
+  background-color: #343542;
+  width: 100%;
+  padding: 100px 200px;
+  color: white;
+}
+
+.review-card {
+  background-color: #363846;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  img:nth-child(1) {
+    width: 100px;
+    height: 20px;
+  }
+
+  img:nth-child(2) {
+    width: 70px;
+  }
+}
+
+.button:hover {
+  background-color: #e91e63;
+}
+
+.button:active {
+  transform: translateY(2px);
+}
+
+.loaderContainer {
+  display: none;
+}
+
+span {
+  color: #88e47b;
+}
+
+.green {
+  color: #88e47b;
+}
+
+.gradient {
+  background: linear-gradient(to right, #f06, #ff9);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.gradient:hover {
+  background: linear-gradient(to right, #ff9, #f06);
+}
+
+/* Flex container for main layout */
+main {
+  display: flex;
+  height: 100vh;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Section styling */
+section {
+  padding: 20px;
+}
+
+/* Align video to the right */
+video {
+  width: 50%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Icon and text styling for guarantee section */
+section div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+section div i {
+  font-size: 2rem;
+  margin-right: 15px;
+}
+
+.btn-grad {
+  background-image: linear-gradient(
+    to right,
+    #ff512f 0%,
+    #dd2476 51%,
+    #ff512f 100%
+  );
+}
+
+.btn-grad {
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+.btn-grad:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+.bi-person-fill {
+  padding: 4px;
+  background-color: #6d6969;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 900px;
+}
+
+.pricing-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.best-deal {
+  border: 2px solid green;
+  padding: 25px;
+  position: relative;
+}
+
+.discount {
+  background: green;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.plan-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+}
+
+.price span {
+  font-size: 16px;
+  color: gray;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.main-price {
+  color: #ff3e3e;
+}
+
+.small-text {
+  font-size: 14px;
+  color: gray;
+}
+
+.strike-text {
+  font-size: 14px;
+  color: gray;
+}
+
+.guarantee {
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+
+.price-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1024px) {
+  .main-div,
+  .second-div,
+  .div-3 {
+    padding: 0 100px;
+  }
+  .div-3 {
+    padding: 80px 100px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-div,
+  .second-div,
+  .div-3 {
+    padding: 0 50px;
+  }
+  .div-3 {
+    padding: 60px 50px;
+  }
+  main {
+    flex-direction: column;
+    height: auto;
+  }
+  video {
+    width: 100%;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-div,
+  .second-div,
+  .div-3 {
+    padding: 0 20px;
+  }
+  .div-3 {
+    padding: 40px 20px;
+  }
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .pricing-card {
+    width: 100%;
+  }
+  .btn-grad {
+    padding: 10px 30px;
+  }
+}
+.loader-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 9999;
+  flex-direction: column;
+}
+
+/* The actual loader */
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue color */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite; /* Spin animation */
+}
+
+/* Countdown text */
+.countdown {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #fff;
+}
+
+/* Animation for the loader spinning */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
