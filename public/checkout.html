@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VPN Checkout</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <title>VPN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       .hidden {
@@ -64,6 +65,21 @@
     </style>
   </head>
   <body class="bg-gray-50">
+    <header>
+      <nav class="flex max-w-5xl mx-auto px-4 py-5 justify-between w-full items-center">
+        <img width="100" src="./assets/logo.png" alt="">
+        <span></span>
+      
+        <div 
+          class="flex items-center gap-1 cursor-pointer" 
+          aria-label="Language selection"
+        >
+        🌏︎
+          <p class="mb-0 text-xs">EN</p>
+          <i class="bi bi-chevron-down text-green-500 text-sm"></i>
+        </div>
+      </nav>
+    </header>
     <main
       class="max-w-5xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8"
     >
@@ -78,22 +94,22 @@
             <h3 class="font-semibold mb-2">Credit/Debit Card</h3>
             <div class="flex space-x-2 mb-4">
               <img
-                src="https://www.visa.com.au/dam/VCOM/regional/ve/romania/blogs/hero-image/visa-logo-800x450.jpg"
+                src="./assets/visa-logo.jpg"
                 class="h-6"
                 alt="Visa"
               />
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                src="./assets/Mastercard-logo.svg"
                 class="h-6"
                 alt="Mastercard"
               />
               <img
-                src="https://1000logos.net/wp-content/uploads/2016/10/American-Express-logo.png"
+                src="./assets/American-Express-logo.png"
                 class="h-6"
                 alt="Amex"
               />
               <img
-                src="https://1000logos.net/wp-content/uploads/2021/05/Discover-logo.png"
+                src="./assets/Discover-logo.png"
                 class="h-6"
                 alt="Discover"
               />

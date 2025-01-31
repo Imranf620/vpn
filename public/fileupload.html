@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File Upload & User Data</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <title>VPN</title>
     <link rel="stylesheet" href="style/upload.css" />
   </head>
   <body>
@@ -264,7 +265,7 @@
   const mainContent = document.getElementById("mainContent");
 
   if (data.success && mainContent) {
-    mainContent.style.display = "block"; // Show if admin
+    mainContent.style.display = "block";
   } else if (mainContent) {
     window.location.href = "/login"; 
     mainContent.remove(); 
