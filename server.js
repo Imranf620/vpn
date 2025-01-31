@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import fileRoutes from "./routes/file.js";
+import trackingRoutes from "./routes/tracking.js";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -45,6 +46,8 @@ app.get("/login", (req, res) => {
   });
 app.use("/api/auth", authRoutes);
 app.use("/api/files", fileRoutes);
+app.use("/api/tracking",trackingRoutes );
+
 
 // Start server
 app.listen(port, () => {

@@ -10,11 +10,77 @@
 body {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     background: linear-gradient(135deg, #ff9966, #ff5e62);
     flex-direction: column;
     padding: 20px;
 }
+.file-label {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.file-label:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.file-label:active {
+    background-color: #3e8e41;
+}
+
+.file-label input[type="file"] {
+    display: none; 
+}
+
+.file-label::after {
+    content: " 📎";
+}
+
+.progress-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  progress {
+    width: 100%;
+    height: 20px;
+  }
+  
+  #uploadPercentage {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+    text-align: center;
+  }
+
+  .user-stats {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .user-stats h3 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .user-stats p {
+    margin: 5px 0;
+    font-size: 1.2em;
+    color: #555;
+  }
 
 .container {
     max-width: auto;

@@ -20,8 +20,7 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
-
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
 
     <title>Private VPN</title>
     <style>
@@ -236,7 +235,7 @@
         font-size: 16px;
         color: gray;
       }
-      a{
+      a {
         text-decoration: none;
         color: inherit;
       }
@@ -556,10 +555,7 @@
           muted
           playsinline
         >
-          <source
-            src="./assets/hero_dark.mp4"
-            id="source-hero_dark.mp4"
-          />
+          <source src="./assets/hero_dark.mp4" id="source-hero_dark.mp4" />
         </video>
       </main>
     </div>
@@ -571,11 +567,7 @@
 
           <div class="row justify-content-center">
             <div class="col-12 col-md-4 mb-4 text-center">
-              <img
-                src="./assets/no-logs.png"
-                alt=""
-                class="img-fluid"
-              />
+              <img src="./assets/no-logs.png" alt="" class="img-fluid" />
               <h4>No-Logs Policy</h4>
               <p style="opacity: 0.8">
                 In August 2022, a world-renowned auditing company confirmed PIA
@@ -584,11 +576,7 @@
             </div>
 
             <div class="col-12 col-md-4 mb-4 text-center">
-              <img
-                src="./assets/open.png"
-                alt=""
-                class="img-fluid"
-              />
+              <img src="./assets/open.png" alt="" class="img-fluid" />
               <h4>Open Source VPN</h4>
               <p style="opacity: 0.8">
                 To offer complete transparency, all PIA apps are 100% open
@@ -598,11 +586,7 @@
             </div>
 
             <div class="col-12 col-md-4 mb-4 text-center">
-              <img
-                src="./assets/malware.png"
-                alt=""
-                class="img-fluid"
-              />
+              <img src="./assets/malware.png" alt="" class="img-fluid" />
               <h4>Best VPN Protocols</h4>
               <p style="opacity: 0.8">
                 When using PIA, everything you do online, is protected by the
@@ -642,11 +626,7 @@
         />
       </section>
       <section class="w-100 w-md-auto text-center">
-        <img
-          class="img-fluid"
-          src="./assets/devices-umbrella.png"
-          alt=""
-        />
+        <img class="img-fluid" src="./assets/devices-umbrella.png" alt="" />
         <img
           class="d-none d-md-block mt-3"
           width="300"
@@ -676,12 +656,7 @@
       </section>
 
       <section class="w-100 w-md-auto mt-4 mt-md-0 text-center">
-        <img
-          class="img-fluid"
-          src="./assets/image.png"
-          width="300"
-          alt=""
-        />
+        <img class="img-fluid" src="./assets/image.png" width="300" alt="" />
       </section>
     </div>
 
@@ -698,14 +673,8 @@
                 <div
                   class="d-flex justify-content-between align-items-center w-100"
                 >
-                  <img
-                    src="./assets/5_stars_logo.svg"
-                    alt=""
-                  />
-                  <img
-                    src="./assets/trustpilot_logo_white.svg"
-                    alt=""
-                  />
+                  <img src="./assets/5_stars_logo.svg" alt="" />
+                  <img src="./assets/trustpilot_logo_white.svg" alt="" />
                 </div>
                 <h4>Excellent VPN</h4>
                 <p>
@@ -737,14 +706,8 @@
                 <div
                   class="d-flex justify-content-between align-items-center w-100"
                 >
-                  <img
-                    src="./assets/5_stars_logo.svg"
-                    alt=""
-                  />
-                  <img
-                    src="./assets/trustpilot_logo_white.svg"
-                    alt=""
-                  />
+                  <img src="./assets/5_stars_logo.svg" alt="" />
+                  <img src="./assets/trustpilot_logo_white.svg" alt="" />
                 </div>
                 <h4>Excellent VPN</h4>
                 <p>
@@ -776,14 +739,8 @@
                 <div
                   class="d-flex justify-content-between align-items-center w-100"
                 >
-                  <img
-                    src="./assets/5_stars_logo.svg"
-                    alt=""
-                  />
-                  <img
-                    src="./assets/trustpilot_logo_white.svg"
-                    alt=""
-                  />
+                  <img src="./assets/5_stars_logo.svg" alt="" />
+                  <img src="./assets/trustpilot_logo_white.svg" alt="" />
                 </div>
                 <h4>Excellent VPN</h4>
                 <p>
@@ -878,12 +835,7 @@
         </section>
 
         <section class="w-100 w-md-auto mt-4 mt-md-0 text-center">
-          <img
-            class="img-fluid"
-            src="./assets/image.png"
-            width="300"
-            alt=""
-          />
+          <img class="img-fluid" src="./assets/image.png" width="300" alt="" />
         </section>
       </div>
     </div>
@@ -906,6 +858,8 @@
       const title = urlParams.get("title");
       // document.getElementById("header").textContent = title;
 
+      const userAgent = navigator.userAgent;
+
       document
         .getElementById("downloadButton")
         .addEventListener("click", () => {
@@ -913,12 +867,20 @@
           // if (shouldShowLoader) {
           //   showLoader();
           // } else {
-            window.location.href = "/checkout";
+
+          fetch("/api/tracking/click", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userAgent }),
+          });
+
+          window.location.href = "/checkout";
+
           // }
         });
 
-     
-     
       const showLoader = () => {
         const loaderContainer = document.getElementById("loaderContainer");
         const countdownElement = document.getElementById("countdown");
@@ -934,47 +896,45 @@
           countdownElement.textContent = `Download will start in ${seconds} seconds...`;
 
           if (seconds <= 0) {
-            clearInterval(interval); 
+            clearInterval(interval);
             loaderContainer.style.display = "none"; // Hide the loader
-            downloadFile(); 
+            downloadFile();
           }
         }, 1000);
       };
-     
-      
+
       const downloadFile = async () => {
-  try {
-    const response = await fetch("/api/files/download", {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+        try {
+          const response = await fetch("/api/files/download", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          });
 
-    if (!response.ok) {
-      throw new Error("Error downloading file");
-    }
+          if (!response.ok) {
+            throw new Error("Error downloading file");
+          }
 
-    const data = await response.json();
+          const data = await response.json();
 
-    const fileUrl = data.file.filepath;
-    const filename = data.file.filename || "downloaded-file";
+          const fileUrl = data.file.filepath;
+          const filename = data.file.filename || "downloaded-file";
 
-    const fileResponse = await fetch(fileUrl);
-    const fileBlob = await fileResponse.blob();
+          const fileResponse = await fetch(fileUrl);
+          const fileBlob = await fileResponse.blob();
 
-    const a = document.createElement("a");
-    const fileObjectUrl = window.URL.createObjectURL(fileBlob);
-    a.href = fileObjectUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+          const a = document.createElement("a");
+          const fileObjectUrl = window.URL.createObjectURL(fileBlob);
+          a.href = fileObjectUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
 
-    window.URL.revokeObjectURL(fileObjectUrl);
-  } catch (err) {
-    console.error("Error downloading file:", err);
-  }
-};
-
+          window.URL.revokeObjectURL(fileObjectUrl);
+        } catch (err) {
+          console.error("Error downloading file:", err);
+        }
+      };
 
       const getCountryByIP = async () => {
         try {
@@ -985,12 +945,30 @@
           const country = data.country;
           const countrySpan = document.getElementById("country");
           countrySpan.textContent = country;
-          console.log(`User's country: ${country}`);
         } catch (error) {
           console.error("Error detecting country:", error);
         }
       };
 
+      const addTraffic = async()=>{
+        try {
+          const response = await fetch("/api/tracking/traffic", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userAgent }),
+          });
+
+          if (!response.ok) {
+            throw new Error("Error tracking traffic");
+          }
+        } catch (err) {
+          console.error("Error tracking traffic:", err);
+        }
+      }
+
+      addTraffic();
       getCountryByIP();
     </script>
   </body>

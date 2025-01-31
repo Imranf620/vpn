@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 
 export const authenticateAdmin = (req, res, next) => {
   const token = req.header("Authorization")|| req.headers.authorization?.split(" ")[1];
-  console.log(req.headers.authorization?.split(" ")[1])
+ 
 
 
 

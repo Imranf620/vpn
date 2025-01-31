@@ -55,9 +55,8 @@ router.post("/upload", authenticateAdmin, async (req, res) => {
       return res.status(400).json({ message: "File name or file URL is missing" });
     }
 
-    // Find the existing file from the database
     const existingFile = await File.findOne().sort({ createdAt: -1 });
-    console.log(existingFile);
+ 
 
     if (existingFile) {
       const deleteCommand = new DeleteObjectCommand({
